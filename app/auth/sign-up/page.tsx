@@ -1,15 +1,14 @@
-import { ControlledInput } from '@/app/_components/input';
-
+import { SignUpForm } from './_components/sign-up-form';
 
 export default function SignUpPage() {
   return (
     <main className="flex flex-1 items-center justify-center">
-      <div className="bg-neutral w-full max-w-2xl">
-        <div className='flex flex-col gap-2'>
-          <input type="text" placeholder="Type here" className="input w-full" />
-          <input type="text" placeholder="Type here" className="input w-full" />
-          <input type="text" placeholder="Type here" className="input w-full" />
+      <div className="flex flex-col w-full max-w-lg gap-8">
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="font-semibold text-3xl">Create Your Account</h1>
+          <p className="text-xl">Join our community by creating an account.</p>
         </div>
+        <SignUpForm />
       </div>
     </main>
   );

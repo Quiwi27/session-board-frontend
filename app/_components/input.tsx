@@ -12,7 +12,7 @@ export function ControlledInput({ placeholder, value, isDisable, onChange }: Con
     <input
       type="text"
       placeholder={placeholder}
-      className="input bg-secondary w-full"
+      className="input w-full"
       disabled={isDisable}
       value={value}
       onChange={(e) => onChange?.(e.target.value)}

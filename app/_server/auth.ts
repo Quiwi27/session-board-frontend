@@ -14,7 +14,6 @@ export async function serverSignIn({ email, password }: SignInParams) {
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({ message: 'Failed to sign in. Unknown Error.' }));
-
     throw new Error(error.message);
   }
 

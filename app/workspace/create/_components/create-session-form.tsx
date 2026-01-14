@@ -7,6 +7,8 @@ import { TimePicker } from '@/app/_components/time-picker';
 import { createSession, CreateSessionState } from '../_actions/create-session';
 import { Spinner } from '@/app/_components/spinner';
 
+import { format } from 'date-fns';
+
 const initialState: CreateSessionState = {
   message: '',
   errors: {},
@@ -18,8 +20,8 @@ export function CreateSessionForm() {
   const [formData, setFormData] = useState({
     title: '',
     maxPlayers: '',
-    date: '2025-01-01',
-    time: '2025-01-01 12:00',
+    date: format(new Date(), 'yyyy-MM-dd'),
+    time: format(new Date().setHours(12, 0, 0, 0), "yyyy-MM-dd'T'HH:mm"),
   });
 
   const handleChange = (field: string, value: string) => {
@@ -53,7 +55,10 @@ export function CreateSessionForm() {
               label="Date"
               name="date"
               value={formData.date}
-              onChange={(val) => handleChange('date', val)}
+              onChange={(val) => {
+                console.log(val);
+                handleChange('date', val)
+              }}
               errorMessage={state.errors?.date?.[0]}
             />
 
@@ -62,7 +67,10 @@ export function CreateSessionForm() {
                 label="Start Time"
                 name="time"
                 value={formData.time}
-                onChange={(val) => handleChange('time', val)}
+                onChange={(val) => {
+                  console.log(val);
+                  handleChange('time', val)
+                }}
                 errorMessage={state.errors?.time?.[0]}
               />
             </div>

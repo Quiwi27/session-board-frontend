@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 @plugin "daisyui";
 
 @plugin "daisyui/theme" {
@@ -71,7 +70,6 @@
   --depth: 1;
   --noise: 1;
 }
-
 
 html,
 body {

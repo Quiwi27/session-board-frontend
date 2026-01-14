@@ -26,7 +26,9 @@ export default function RootLayout({
               <Link href="/" className="btn btn-ghost text-xl font-bold">Session Board</Link>
             </div>
           </header>
-          {children}
+          <main className="flex flex-1 items-center justify-center">
+            {children}
+          </main>
         </div>
       </body>
     </html>

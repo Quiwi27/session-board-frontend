@@ -26,8 +26,8 @@ export function SignUpForm() {
   };
 
   return (
-    <form action={action} className="flex flex-col gap-6">
-      <div className="flex flex-col gap-4">
+    <form action={action} className="flex flex-col gap-6 w-full">
+      <div className="flex flex-col gap-5">
         <ControlledInput
           name="email"
           placeholder="Email"
@@ -61,18 +61,25 @@ export function SignUpForm() {
       </div>
 
       {state.message && (
-        <p className="text-sm text-center text-error">{state.message}</p>
+        <div className="p-3 rounded-lg bg-error/10 text-error text-sm text-center font-medium">
+          {state.message}
+        </div>
       )}
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-6 mt-2">
         <button
-          className="btn btn-primary"
+          className="btn btn-primary w-full text-lg font-normal tracking-wide shadow-lg shadow-primary/20"
           disabled={isPending}
           type="submit"
         >
           {isPending ? <Spinner /> : 'Sign Up'}
         </button>
-        <p className="text-center">Already have an account? <Link href="/auth/sign-in" className="link">Login here</Link></p>
+        <p className="text-center text-base-content/70">
+          Already have an account?{' '}
+          <Link href="/auth/sign-in" className="link link-primary font-medium hover:text-primary-focus transition-colors">
+            Login here
+          </Link>
+        </p>
       </div>
     </form>
   );

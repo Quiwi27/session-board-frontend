@@ -2,12 +2,18 @@ import { SignUpForm } from './_components/sign-up-form';
 
 export default function SignUpPage() {
   return (
-    <div className="flex flex-col w-full max-w-lg gap-8">
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="font-semibold text-3xl">Create Your Account</h1>
-        <p className="text-xl">Join our community by creating an account.</p>
+    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-4 bg-linear-to-br from-base-100 to-base-200">
+       <div className="w-full max-w-lg bg-base-100 rounded-3xl p-8 md:p-12 shadow-2xl border border-base-200">
+        <div className="flex flex-col items-center justify-center mb-10 text-center space-y-2">
+          <h1 className="font-bold text-3xl md:text-4xl tracking-tight text-base-content">
+            Create Account
+          </h1>
+          <p className="text-base-content/60 text-lg">
+            Join our community today
+          </p>
+        </div>
+        <SignUpForm />
       </div>
-      <SignUpForm />
     </div>
   );
 }

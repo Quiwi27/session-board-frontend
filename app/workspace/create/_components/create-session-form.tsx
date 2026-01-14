@@ -19,7 +19,7 @@ export function CreateSessionForm() {
     title: '',
     maxPlayers: '',
     date: '2025-01-01',
-    time: '12:00',
+    time: '2025-01-01 12:00',
   });
 
   const handleChange = (field: string, value: string) => {

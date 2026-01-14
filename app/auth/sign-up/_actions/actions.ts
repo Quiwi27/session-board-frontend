@@ -13,38 +13,38 @@ export type SignupFormState = {
 };
 
 export async function signup(prevState: SignupFormState, formData: FormData): Promise<SignupFormState> {
-    const validatedFields = SignupFormSchema.safeParse({
-      name: formData.get('name'),
-      email: formData.get('email'),
-      password: formData.get('password'),
-      confirmPassword: formData.get('confirmPassword'),
-    })
+  const validatedFields = SignupFormSchema.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+    confirmPassword: formData.get('confirmPassword'),
+  });
 
-    if (!validatedFields.success) {
-      return {
-        errors: validatedFields.error.flatten().fieldErrors,
-        message: 'Missing Fields. Failed to Register.',
-      }
-    }
-
-    const { name, email, password } = validatedFields.data
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log('Registration data:', { name, email, password });
-      // TODO: Handle actual registration response
-    } catch (error) {
-      console.error('Registration failed:', error);
-      return {
-        message: 'Database Error: Failed to Register.',
-      }
-    }
-
-    // Revalidate the cache if needed or redirect
-    // revalidatePath('/dashboard')
-    // redirect('/dashboard')
-
+  if (!validatedFields.success) {
     return {
-      message: 'User registered successfully!', // This might differ if we redirect
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Register.',
     }
+  }
+
+  const { name, email, password } = validatedFields.data
+
+  const response = await fetch(`${process.env.BACKEND_SERVER_URL}/auth/sign-up`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, email, password }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: 'Failed to register user. Unknown Error.' }));
+    return {
+      message: error.message,
+    };
+  }
+
+  return {
+    message: '',
+  };
 }

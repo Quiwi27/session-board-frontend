@@ -1,5 +1,4 @@
-import setCookieParser from 'set-cookie-parser';
-import { cookies as nextCookies } from 'next/headers';
+import { collectCookies } from './base';
 
 export type SignInParams = {
   email: string;
@@ -40,27 +39,5 @@ export async function serverSignUp({ name, email, password }: SignUpParams) {
   if (!response.ok) {
     const error = await response.json().catch(() => ({ message: 'Failed to register user. Unknown Error.' }));
     throw new Error(error.message);
-  }
-}
-
-export async function collectCookies(response: Response) {
-  const setCookieHeader = response.headers.get('set-cookie');
-
-  if (!setCookieHeader) return;
-
-  const parsedCookies = setCookieParser.parse(setCookieHeader);
-  const cookieStore = await nextCookies();
-
-  for (const c of parsedCookies) {
-    cookieStore.set({
-      name: c.name,
-      value: c.value,
-      path: c.path ?? '/',
-      httpOnly: c.httpOnly,
-      secure: c.secure,
-      sameSite: c.sameSite as 'lax' | 'strict' | 'none' | undefined,
-      expires: c.expires,
-      maxAge: c.maxAge,
-    })
   }
 }

@@ -1,5 +1,6 @@
 'use server';
 
+import { serverCreateGameSession } from '@/app/_server/game-session';
 import { CreateSessionSchema, CreateSessionValues } from '../_schemes/create-session-schema';
 
 export type CreateSessionState = {
@@ -27,14 +28,11 @@ export async function createSession(
     };
   }
 
-  // Mock backend call
-  const { title, date, time, maxPlayers } = validatedFields.data;
-  console.log('Creating session:', { title, date, time, maxPlayers });
+  try {
+    await serverCreateGameSession(validatedFields.data);
 
-  // Simulate delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  return {
-    message: 'Session created successfully!',
-  };
+    return { message: 'Session created successfully!' };
+  } catch (error) {
+    return { message: `${(error as Error)?.message ?? 'Failed to create session. Unknown Error.'}` };
+  }
 }

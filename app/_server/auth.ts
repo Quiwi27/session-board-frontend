@@ -1,4 +1,4 @@
-import { collectCookies } from './base';
+import { transferCookiesToClient } from './base';
 
 export type SignInParams = {
   email: string;
@@ -17,7 +17,7 @@ export async function serverSignIn({ email, password }: SignInParams) {
     throw new Error(error.message);
   }
 
-  await collectCookies(response);
+  await transferCookiesToClient(response);
 }
 
 export type SignUpParams = {

@@ -1,7 +1,7 @@
 import setCookieParser from 'set-cookie-parser';
 import { cookies as nextCookies } from 'next/headers';
 
-export async function collectCookies(response: Response) {
+export async function transferCookiesToClient(response: Response) {
   const setCookieHeader = response.headers.get('set-cookie');
 
   if (!setCookieHeader) return;
@@ -21,4 +21,10 @@ export async function collectCookies(response: Response) {
       maxAge: c.maxAge,
     })
   }
+}
+
+export async function transferCookiesToServer(): Promise<string> {
+  const cookieStore = await nextCookies();
+
+  return cookieStore.toString();
 }

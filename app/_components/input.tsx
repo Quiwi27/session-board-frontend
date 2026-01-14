@@ -30,3 +30,18 @@ export function ControlledInput({ placeholder, value, name, isDisable, onChange,
     </div>
   );
 }
+
+export type LabelledInputProps = ControllerInputProps & {
+  label: string;
+};
+
+export function LabelledInput({ label, ...props }: LabelledInputProps) {
+  return (
+    <div className="form-control w-full">
+      <label className="label">
+        <span className="label-text font-medium">{label}</span>
+      </label>
+      <ControlledInput {...props} />
+    </div>
+  );
+}

@@ -48,22 +48,24 @@ export function CreateSessionForm() {
           errorMessage={state.errors?.maxPlayers?.[0]}
         />
 
-        <div className="flex flex-col gap-5 w-full">
+        <div className="flex gap-4 w-full">
             <DatePicker
-                label="Date"
-                name="date"
-                value={formData.date}
-                onChange={(val) => handleChange('date', val)}
-                errorMessage={state.errors?.date?.[0]}
+              label="Date"
+              name="date"
+              value={formData.date}
+              onChange={(val) => handleChange('date', val)}
+              errorMessage={state.errors?.date?.[0]}
             />
 
-            <TimePicker
+            <div className="w-30">
+              <TimePicker
                 label="Start Time"
                 name="time"
                 value={formData.time}
                 onChange={(val) => handleChange('time', val)}
                 errorMessage={state.errors?.time?.[0]}
-            />
+              />
+            </div>
         </div>
       </div>
 

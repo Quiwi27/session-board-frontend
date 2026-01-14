@@ -40,7 +40,12 @@ export function SessionCard({
           </div>
 
           <div className="card-actions justify-end mt-4">
-             <button className="btn btn-primary btn-sm w-full">Details</button>
+             <button
+               className="btn btn-primary btn-sm w-full"
+               disabled={currentPlayers >= maxPlayers}
+             >
+               Join
+             </button>
           </div>
         </div>
       </div>

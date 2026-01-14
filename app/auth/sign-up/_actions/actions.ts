@@ -1,5 +1,6 @@
 'use server'
 
+import { serverSignUp } from '@/app/_server/auth';
 import { SignupFormSchema } from '../_schemes/schema';
 
 export type SignupFormState = {
@@ -29,22 +30,11 @@ export async function signup(prevState: SignupFormState, formData: FormData): Pr
 
   const { name, email, password } = validatedFields.data
 
-  const response = await fetch(`${process.env.BACKEND_SERVER_URL}/auth/sign-up`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ name, email, password }),
-  });
+  try {
+    await serverSignUp({ name, email, password });
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'Failed to register user. Unknown Error.' }));
-    return {
-      message: error.message,
-    };
+    return { message: 'Success!' };
+  } catch (error: unknown) {
+    return { message: `${(error as Error)?.message ?? 'Failed to register user. Unknown Error.'}` };
   }
-
-  return {
-    message: '',
-  };
 }

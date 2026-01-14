@@ -1,5 +1,6 @@
 'use server'
 
+import { serverSignIn } from '@/app/_server/auth';
 import { SigninFormSchema } from '../_schemes/schema';
 
 export type SigninFormState = {
@@ -25,23 +26,11 @@ export async function signin(prevState: SigninFormState, formData: FormData): Pr
 
   const { email, password } = validatedFields.data
 
-  // TODO: Add cookie session management here later
-  const response = await fetch(`${process.env.BACKEND_SERVER_URL}/auth/sign-in`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  });
+  try {
+    await serverSignIn({ email, password });
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'Failed to sign in. Unknown Error.' }));
-    return {
-        message: error.message,
-    };
+    return { message: 'Success!' };
+  } catch (error: unknown) {
+    return { message: `${(error as Error)?.message ?? 'Failed to sign in. Unknown Error.'}` };
   }
-
-  return {
-    message: 'Success!', // Or redirect
-  };
 }

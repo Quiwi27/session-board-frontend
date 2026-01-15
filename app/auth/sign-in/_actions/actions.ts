@@ -2,6 +2,7 @@
 
 import { serverSignIn } from '@/app/_server/auth';
 import { SigninFormSchema } from '../_schemes/schema';
+import { redirect, RedirectType } from 'next/navigation';
 
 export type SigninFormState = {
   errors?: {
@@ -28,9 +29,9 @@ export async function signin(prevState: SigninFormState, formData: FormData): Pr
 
   try {
     await serverSignIn({ email, password });
-
-    return { message: 'Success!' };
   } catch (error: unknown) {
     return { message: `${(error as Error)?.message ?? 'Failed to sign in. Unknown Error.'}` };
   }
+
+  redirect('/workspace', RedirectType.replace);
 }

@@ -5,6 +5,7 @@ interface SessionCardProps {
   title: string;
   maxPlayers: number | null;
   participants: DashboardParticipantSessionResponseDto[];
+  userId: string;
 }
 
 export function SessionCard({
@@ -12,6 +13,7 @@ export function SessionCard({
   title,
   maxPlayers,
   participants,
+  userId,
 }: SessionCardProps) {
   const formattedDate = new Intl.DateTimeFormat('uk-UA', {
     dateStyle: 'medium',
@@ -20,10 +22,13 @@ export function SessionCard({
 
   const players = participants.filter((participant) => participant.role === 'PLAYER');
   const master = participants.find((participant) => participant.role === 'MASTER');
+  const users = participants.map((participant) => participant.user);
 
   const currentPlayers = players.length;
+  const isEnoughPlayers = maxPlayers != null && currentPlayers >= maxPlayers;
+  const isAlredyJoined = users.some((user) => user.id === userId);
 
-  const disableJoin = maxPlayers != null && currentPlayers >= maxPlayers;
+  const isDisableJoin = isEnoughPlayers || isAlredyJoined;
 
   return (
     <div className="card bg-base-100 shadow-xl border border-base-300">
@@ -49,7 +54,7 @@ export function SessionCard({
           <div className="card-actions justify-end mt-4">
              <button
                className="btn btn-primary btn-sm w-full"
-               disabled={disableJoin}
+               disabled={isDisableJoin}
              >
                Join
              </button>

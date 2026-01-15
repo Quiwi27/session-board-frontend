@@ -1,6 +1,7 @@
 import { transferCookiesToServer } from './base';
 import { parse } from 'date-fns';
 import { PageDto } from './pagination';
+import { UserResponseDto } from './user';
 
 export type CreateGameSessionParams = {
   title: string;
@@ -38,12 +39,6 @@ export async function serverCreateGameSession(params: CreateGameSessionParams): 
   }
 
   return response.json();
-}
-
-export type UserResponseDto = {
-  id: string;
-  name: string;
-  email: string;
 }
 
 export type DashboardParticipantSessionResponseDto = {

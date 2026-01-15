@@ -1,7 +1,11 @@
 import { DashboardSessionResponseDto, serverGetGameSessions } from '@/app/_server/game-session';
+import { serverGetMe, UserResponseDto } from '@/app/_server/user';
 
-export async function getDashboardSesssions(): Promise<DashboardSessionResponseDto[]> {
-  const sessions = await serverGetGameSessions();
+export async function getDashboardSesssions(): Promise<{ sessions: DashboardSessionResponseDto[], user: UserResponseDto }> {
+  const [sessionsResponse, userResponse] = await Promise.all([serverGetGameSessions(), serverGetMe()]);
 
-  return sessions.items;
+  return {
+    sessions: sessionsResponse.items,
+    user: userResponse,
+  };
 }

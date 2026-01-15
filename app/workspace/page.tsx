@@ -1,11 +1,12 @@
 import { DashboardSessionResponseDto } from '../_server/game-session';
+import { UserResponseDto } from '../_server/user';
 import { getDashboardSesssions } from './_actions/actions';
 import { SessionCard } from "./_components/session-card";
 import Link from "next/link";
 
 export default async function WorkspacePage() {
-  const sessions = await getDashboardSesssions();
-  const content = sessions.length > 0 ? <SessionGrid sessions={sessions} /> : <NotFoundSessions />;
+  const { sessions, user } = await getDashboardSesssions();
+  const content = sessions.length > 0 ? <SessionGrid sessions={sessions} user={user} /> : <NotFoundSessions />;
 
   return (
     <div className="container mx-auto p-6 space-y-8">
@@ -20,7 +21,7 @@ export default async function WorkspacePage() {
   );
 }
 
-function SessionGrid({ sessions }: { sessions: DashboardSessionResponseDto[] }) {
+function SessionGrid({ sessions, user }: { sessions: DashboardSessionResponseDto[], user: UserResponseDto }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {sessions.map((session) => (
@@ -30,6 +31,7 @@ function SessionGrid({ sessions }: { sessions: DashboardSessionResponseDto[] }) 
           startAt={new Date(session.startDate)}
           maxPlayers={session.maxPlayers}
           participants={session.participants}
+          userId={user.id}
         />
       ))}
     </div>

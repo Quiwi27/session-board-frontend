@@ -28,9 +28,8 @@ function SessionGrid({ sessions }: { sessions: DashboardSessionResponseDto[] }) 
           key={session.id}
           title={session.title}
           startAt={new Date(session.startDate)}
-          masterName={session.master?.name}
           maxPlayers={session.maxPlayers}
-          currentPlayers={session.playerCount}
+          participants={session.participants}
         />
       ))}
     </div>

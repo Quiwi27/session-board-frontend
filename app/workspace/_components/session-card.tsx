@@ -1,22 +1,27 @@
+import { DashboardParticipantSessionResponseDto } from '@/app/_server/game-session';
+
 interface SessionCardProps {
   startAt: Date;
   title: string;
-  masterName?: string | null;
   maxPlayers: number | null;
-  currentPlayers: number;
+  participants: DashboardParticipantSessionResponseDto[];
 }
 
 export function SessionCard({
   startAt,
   title,
-  masterName,
   maxPlayers,
-  currentPlayers,
+  participants,
 }: SessionCardProps) {
   const formattedDate = new Intl.DateTimeFormat('uk-UA', {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(startAt);
+
+  const players = participants.filter((participant) => participant.role === 'PLAYER');
+  const master = participants.find((participant) => participant.role === 'MASTER');
+
+  const currentPlayers = players.length;
 
   const disableJoin = maxPlayers != null && currentPlayers >= maxPlayers;
 
@@ -31,7 +36,7 @@ export function SessionCard({
         <div className="flex flex-col gap-2 mt-auto">
           <div className="flex justify-between items-center text-sm">
             <span>Master:</span>
-            <span className="font-medium">{masterName ?? 'Unknown'}</span>
+            <span className="font-medium">{master?.user.name ?? 'Unknown'}</span>
           </div>
 
           <div className="flex justify-between items-center text-sm">

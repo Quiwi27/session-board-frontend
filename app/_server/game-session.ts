@@ -46,13 +46,19 @@ export type UserResponseDto = {
   email: string;
 }
 
+export type DashboardParticipantSessionResponseDto = {
+  id: string;
+  sessionId: string;
+  role: 'PLAYER' | 'MASTER';
+  user: UserResponseDto;
+}
+
 export type DashboardSessionResponseDto = {
   id: string;
   startDate: string;
   title: string;
   maxPlayers: number | null;
-  playerCount: number;
-  master: UserResponseDto | null;
+  participants: DashboardParticipantSessionResponseDto[];
 }
 
 export async function serverGetGameSessions(): Promise<PageDto<DashboardSessionResponseDto>> {

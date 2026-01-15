@@ -1,5 +1,6 @@
 import { transferCookiesToServer } from './base';
 import { parse } from 'date-fns';
+import { PageDto } from './pagination';
 
 export type CreateGameSessionParams = {
   title: string;
@@ -38,3 +39,38 @@ export async function serverCreateGameSession(params: CreateGameSessionParams): 
 
   return response.json();
 }
+
+export type UserResponseDto = {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export type DashboardSessionResponseDto = {
+  id: string;
+  startDate: string;
+  title: string;
+  maxPlayers: number | null;
+  playerCount: number;
+  master: UserResponseDto | null;
+}
+
+export async function serverGetGameSessions(): Promise<PageDto<DashboardSessionResponseDto>> {
+  const cookies = await transferCookiesToServer();
+
+  const response = await fetch(`${process.env.BACKEND_SERVER_URL}/game-sessions?page=1&limit=100`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Cookie': cookies,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: 'Failed to get sessions. Unknown Error.' }));
+    throw new Error(error.message);
+  }
+
+  return response.json();
+}
+

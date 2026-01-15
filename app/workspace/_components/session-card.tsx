@@ -1,8 +1,8 @@
 interface SessionCardProps {
   startAt: Date;
   title: string;
-  masterName: string;
-  maxPlayers: number;
+  masterName?: string | null;
+  maxPlayers: number | null;
   currentPlayers: number;
 }
 
@@ -18,6 +18,8 @@ export function SessionCard({
     timeStyle: 'short',
   }).format(startAt);
 
+  const disableJoin = maxPlayers != null && currentPlayers >= maxPlayers;
+
   return (
     <div className="card bg-base-100 shadow-xl border border-base-300">
       <div className="card-body">
@@ -29,7 +31,7 @@ export function SessionCard({
         <div className="flex flex-col gap-2 mt-auto">
           <div className="flex justify-between items-center text-sm">
             <span>Master:</span>
-            <span className="font-medium">{masterName}</span>
+            <span className="font-medium">{masterName ?? 'Unknown'}</span>
           </div>
 
           <div className="flex justify-between items-center text-sm">
@@ -42,7 +44,7 @@ export function SessionCard({
           <div className="card-actions justify-end mt-4">
              <button
                className="btn btn-primary btn-sm w-full"
-               disabled={currentPlayers >= maxPlayers}
+               disabled={disableJoin}
              >
                Join
              </button>
